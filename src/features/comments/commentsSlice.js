@@ -58,11 +58,10 @@ export const commentsSlice = createSlice({
       state.failedToCreateComment = false;
     },
     [postCommentForArticleId.fulfilled]: (state, action) => {
-      state.byArticleId.map(article => {
-        if(article.id === action.payload.articleId) {
-          article.id.push(action.payload.comment);
-        }
-      });
+      const foundArticle = state.byArticleId.find(article => article.id === action.payload.articleId);
+      if(foundArticle) {
+        foundArticle.id.push(action.payload.comment);
+      }
       state.createCommentIsPending = false;
       state.failedToCreateComment = false;
     },

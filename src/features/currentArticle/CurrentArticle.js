@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  selectCurrentArticle,
-  isLoadingCurrentArticle,
-} from '../currentArticle/currentArticleSlice';
+
+import { selectCurrentArticle, isLoadingCurrentArticle } from '../currentArticle/currentArticleSlice';
 import FullArticle from '../../components/FullArticle';
 
 const CurrentArticle = () => {
