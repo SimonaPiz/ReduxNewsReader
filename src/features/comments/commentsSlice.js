@@ -38,37 +38,38 @@ export const commentsSlice = createSlice({
     failedToCreateComment: false,
   },
   // Add extraReducers here.
-  extraReducers: {
-    [loadCommentsForArticleId.pending]: (state, action) => {
-      state.isLoadingComments = true;
-      state.failedToLoadComments = false;
-    },
-    [loadCommentsForArticleId.fulfilled]: (state, action) => {
-      state.byArticleId.map(article => article.id === action.payload.articleId);
-      state.isLoadingComments = false;
-      state.failedToLoadComments = false;
-    },
-    [loadCommentsForArticleId.rejected]: (state, action) => {
-      state.isLoadingComments = false;
-      state.failedToLoadComments = true;
-    },
+  extraReducers: (builder) => {
+    builder
+      .addCase( loadCommentsForArticleId.pending, (state, action) => {
+        state.isLoadingComments = true;
+        state.failedToLoadComments = false;
+      })
+      .addCase(loadCommentsForArticleId.fulfilled, (state, action) => {
+        state.byArticleId.map(article => article.id === action.payload.articleId);
+        state.isLoadingComments = false;
+        state.failedToLoadComments = false;
+      })
+      .addCase(loadCommentsForArticleId.rejected, (state, action) => {
+        state.isLoadingComments = false;
+        state.failedToLoadComments = true;
+      })
 
-    [postCommentForArticleId.pending]: (state, action) => {
-      state.createCommentIsPending = true;
-      state.failedToCreateComment = false;
-    },
-    [postCommentForArticleId.fulfilled]: (state, action) => {
-      const foundArticle = state.byArticleId.find(article => article.id === action.payload.articleId);
-      if(foundArticle) {
-        foundArticle.id.push(action.payload.comment);
-      }
-      state.createCommentIsPending = false;
-      state.failedToCreateComment = false;
-    },
-     [postCommentForArticleId.rejected]: (state, action) => {
-      state.createCommentIsPending = false;
-      state.failedToCreateComment = true;
-    }
+      .addCase(postCommentForArticleId.pending, (state, action) => {
+        state.createCommentIsPending = true;
+        state.failedToCreateComment = false;
+      })
+      .addCase(postCommentForArticleId.fulfilled, (state, action) => {
+        const foundArticle = state.byArticleId.find(article => article.id === action.payload.articleId);
+        if(foundArticle) {
+          foundArticle.id.push(action.payload.comment);
+        }
+        state.createCommentIsPending = false;
+        state.failedToCreateComment = false;
+      })
+      .addCase(postCommentForArticleId.rejected, (state, action) => {
+        state.createCommentIsPending = false;
+        state.failedToCreateComment = true;
+      })
   }
 });
 
