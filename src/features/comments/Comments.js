@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import {
   loadCommentsForArticleId,
   selectComments,
@@ -16,19 +17,20 @@ const Comments = () => {
   const comments = useSelector(selectComments);
   const commentsAreLoading = useSelector(isLoadingComments);
 
+  let commentsForArticleId = [];
   // Dispatch loadCommentsForArticleId with useEffect here.
   useEffect(() => {
-    const commentsForArticleId = [];
     if (article){
-      dispatch(loadCommentsForArticleId(article.id));
-      commentsForArticleId = comments[article.id];
+      dispatch(loadCommentsForArticleId(article.id));      
     }
-    commentsForArticleId = [];
   }, [dispatch, article]);
 
   if (commentsAreLoading) return <div>Loading Comments</div>;
-  if (!article) return null;
-
+  if (!article) {
+    commentsForArticleId = [];
+  } else {
+    commentsForArticleId = comments[article.id];
+  }
   return (
     <div className='comments-container'>
       <h3 className='comments-title'>Comments</h3>
